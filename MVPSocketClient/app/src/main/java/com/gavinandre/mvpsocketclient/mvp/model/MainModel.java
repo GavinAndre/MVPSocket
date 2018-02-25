@@ -50,6 +50,7 @@ public class MainModel extends BaseModel<MainPresenter> implements SocketClientR
     }
 
     public void stopSocket() {
+        //一定要在子线程内执行关闭socket等IO操作
         ThreadPoolUtil.getInstance().addExecuteTask(() -> {
             socketClientThread.setReConnect(false);
             socketClientThread.stopThread();

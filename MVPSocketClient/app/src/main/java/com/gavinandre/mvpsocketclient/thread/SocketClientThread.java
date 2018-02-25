@@ -64,6 +64,9 @@ public class SocketClientThread extends Thread {
         }
     }
 
+    /**
+     * 初始化socket客户端
+     */
     private void initSocket() {
         try {
             mSocket = SocketFactory.getDefault().createSocket();
@@ -105,12 +108,18 @@ public class SocketClientThread extends Thread {
         }
     }
 
+    /**
+     * 发送消息
+     */
     public void addRequest(String data) {
         dataQueue.add(data);
         //有新增待发送数据，则唤醒发送线程
         toNotifyAll(dataQueue);
     }
 
+    /**
+     * 关闭socket客户端
+     */
     public synchronized void stopThread() {
         //关闭接收线程
         closeReceiveTask();
@@ -130,6 +139,9 @@ public class SocketClientThread extends Thread {
         }
     }
 
+    /**
+     * 唤醒发送线程并关闭
+     */
     private void wakeSendTask() {
         try {
             closeSendTask = true;
@@ -224,6 +236,9 @@ public class SocketClientThread extends Thread {
         dataQueue.clear();
     }
 
+    /**
+     * 阻塞线程,millis为0则永久阻塞,知道调用notify()
+     */
     private void toWait(Object o, long millis) {
         synchronized (o) {
             try {
@@ -245,18 +260,27 @@ public class SocketClientThread extends Thread {
         }
     }
 
+    /**
+     * 连接失败回调
+     */
     private void failedMessage(String msg, int code) {
         if (socketClientResponseInterface != null) {
             socketClientResponseInterface.onSocketDisable(msg, code);
         }
     }
 
+    /**
+     * 接收消息回调
+     */
     private void successMessage(String data) {
         if (socketClientResponseInterface != null) {
             socketClientResponseInterface.onSocketReceive(data, SUCCESS);
         }
     }
 
+    /**
+     * 判断本地socket连接状态
+     */
     private boolean isConnected() {
         if (mSocket.isClosed() || !mSocket.isConnected()) {
             SocketClientThread.this.stopThread();
@@ -413,6 +437,9 @@ public class SocketClientThread extends Thread {
         }
     }
 
+    /**
+     * 设置是否断线重连
+     */
     public void setReConnect(boolean reConnect) {
         isReConnect = reConnect;
     }
