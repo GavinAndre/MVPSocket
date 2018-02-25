@@ -68,11 +68,16 @@ public final class ThreadPoolUtil {
      * 将构造方法访问修饰符设为私有，禁止任意实例化。
      */
     private ThreadPoolUtil() {
+        //获取处理器核心数
         int processorCount = Runtime.getRuntime().availableProcessors();
+        //线程池数采用两倍的核心数
         int poolSize = processorCount * 2;
         Log.i(TAG, "ThreadPoolUtil: processorCount: " + processorCount);
+        //指定线程池名称
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("thread-pool-%d").build();
+        //任务队列使用基于链表结构的队列容量20倍核心数
+        //拒绝策略使用默认的拒绝策略
         mThreadPool = new ThreadPoolExecutor(poolSize, poolSize,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(processorCount * 20), namedThreadFactory,
