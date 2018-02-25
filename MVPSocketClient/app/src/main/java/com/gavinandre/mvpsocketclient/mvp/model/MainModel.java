@@ -2,27 +2,23 @@ package com.gavinandre.mvpsocketclient.mvp.model;
 
 import android.text.TextUtils;
 
+import com.gavinandre.mvpsocketclient.interfaces.SocketClientResponseInterface;
 import com.gavinandre.mvpsocketclient.mvp.base.BaseModel;
 import com.gavinandre.mvpsocketclient.mvp.presenter.MainPresenter;
 import com.gavinandre.mvpsocketclient.thread.SocketClientThread;
-import com.gavinandre.mvpsocketclient.utils.SocketUtil;
 import com.gavinandre.mvpsocketclient.utils.ThreadPoolUtil;
 
 /**
  * Created by gavinandre on 18-1-7.
  */
-public class MainModel extends BaseModel<MainPresenter> implements SocketUtil.SocketConnectInterface,
-        SocketUtil.SocketReceiveInterface, SocketUtil.SocketDisableInterface {
+public class MainModel extends BaseModel<MainPresenter> implements SocketClientResponseInterface {
 
     private static final String TAG = MainModel.class.getSimpleName();
     private SocketClientThread socketClientThread;
 
     public MainModel(MainPresenter presenter) {
         super(presenter);
-        socketClientThread = new SocketClientThread("socketClientThread");
-        socketClientThread.setSocketConnectInterface(this);
-        socketClientThread.setSocketReceiveInterface(this);
-        socketClientThread.setSocketDisableInterface(this);
+        socketClientThread = new SocketClientThread("socketClientThread", this);
         ThreadPoolUtil.getInstance().addExecuteTask(socketClientThread);
     }
 

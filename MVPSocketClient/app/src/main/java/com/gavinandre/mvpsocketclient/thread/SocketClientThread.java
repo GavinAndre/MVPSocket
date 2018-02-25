@@ -2,6 +2,7 @@ package com.gavinandre.mvpsocketclient.thread;
 
 import android.util.Log;
 
+import com.gavinandre.mvpsocketclient.interfaces.SocketClientResponseInterface;
 import com.gavinandre.mvpsocketclient.utils.SocketUtil;
 
 import java.io.BufferedReader;
@@ -41,14 +42,13 @@ public class SocketClientThread extends Thread {
     private boolean isSocketAvailable;
     private boolean closeSendTask;
 
-    private SocketUtil.SocketReceiveInterface socketReceiveInterface;
-    private SocketUtil.SocketDisableInterface socketDisableInterface;
-    private SocketUtil.SocketConnectInterface socketConnectInterface;
+    private SocketClientResponseInterface socketClientResponseInterface;
 
     protected volatile ConcurrentLinkedQueue<String> dataQueue = new ConcurrentLinkedQueue<>();
 
-    public SocketClientThread(String name) {
+    public SocketClientThread(String name, SocketClientResponseInterface socketClientResponseInterface) {
         this.name = name;
+        this.socketClientResponseInterface = socketClientResponseInterface;
     }
 
     @Override
@@ -91,8 +91,8 @@ public class SocketClientThread extends Thread {
                 mSocketHeartBeatThread.start();
             }
 
-            if (socketConnectInterface != null) {
-                socketConnectInterface.onSocketConnect();
+            if (socketClientResponseInterface != null) {
+                socketClientResponseInterface.onSocketConnect();
             }
         } catch (ConnectException e) {
             failedMessage("服务器连接异常，请检查网络", FAILED);
@@ -246,14 +246,14 @@ public class SocketClientThread extends Thread {
     }
 
     private void failedMessage(String msg, int code) {
-        if (socketDisableInterface != null) {
-            socketDisableInterface.onSocketDisable(msg, code);
+        if (socketClientResponseInterface != null) {
+            socketClientResponseInterface.onSocketDisable(msg, code);
         }
     }
 
     private void successMessage(String data) {
-        if (socketReceiveInterface != null) {
-            socketReceiveInterface.onSocketReceive(data, SUCCESS);
+        if (socketClientResponseInterface != null) {
+            socketClientResponseInterface.onSocketReceive(data, SUCCESS);
         }
     }
 
@@ -415,18 +415,6 @@ public class SocketClientThread extends Thread {
 
     public void setReConnect(boolean reConnect) {
         isReConnect = reConnect;
-    }
-
-    public void setSocketReceiveInterface(SocketUtil.SocketReceiveInterface socketReceiveInterface) {
-        this.socketReceiveInterface = socketReceiveInterface;
-    }
-
-    public void setSocketDisableInterface(SocketUtil.SocketDisableInterface socketDisableInterface) {
-        this.socketDisableInterface = socketDisableInterface;
-    }
-
-    public void setSocketConnectInterface(SocketUtil.SocketConnectInterface socketConnectInterface) {
-        this.socketConnectInterface = socketConnectInterface;
     }
 
 }

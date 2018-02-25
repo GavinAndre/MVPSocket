@@ -75,16 +75,4 @@ public class SocketUtil {
         }
     }
 
-    public interface SocketReceiveInterface<T> {
-        void onSocketReceive(T socketResult, int code);
-    }
-
-    public interface SocketDisableInterface {
-        void onSocketDisable(String msg, int code);
-    }
-
-    public interface SocketConnectInterface {
-        void onSocketConnect();
-    }
-
 }
