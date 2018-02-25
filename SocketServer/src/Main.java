@@ -21,15 +21,15 @@ public class Main {
             while (isStart) {
                 Socket socket = serverSocket.accept();
                 serverResponseThread = new ServerResponseThread(socket,
-                        new ResponseCallback() {
+                        new SocketServerResponseInterface() {
 
                             @Override
-                            public void targetIsOffline() {// 对方不在线
+                            public void clientOffline() {// 对方不在线
                                 System.out.println("offline");
                             }
 
                             @Override
-                            public void targetIsOnline(String clientIp) {
+                            public void clientOnline(String clientIp) {
                                 System.out.println(clientIp + " is online");
                                 System.out.println("-----------------------------------------");
                             }

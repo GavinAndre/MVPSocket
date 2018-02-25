@@ -1,10 +1,9 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -16,11 +15,10 @@ public class ServerResponseThread implements Runnable {
     private SendThread sendThread;
     private SocketStatusThread socketStatusThread;
     private Socket socket;
-    private ResponseCallback tBack;
+    private SocketServerResponseInterface socketServerResponseInterface;
 
     private volatile ConcurrentLinkedQueue<String> dataQueue = new ConcurrentLinkedQueue<>();
-    // private static ConcurrentHashMap<String, Socket> onLineClient = new ConcurrentHashMap<>();
-    private static List<Socket> onLineClient = new ArrayList<Socket>();
+    private static ConcurrentHashMap<String, Socket> onLineClient = new ConcurrentHashMap<>();
 
     private long lastReceiveTime = System.currentTimeMillis();
 
@@ -30,12 +28,11 @@ public class ServerResponseThread implements Runnable {
         return userIP;
     }
 
-    public ServerResponseThread(Socket socket, ResponseCallback tBack) {
+    public ServerResponseThread(Socket socket, SocketServerResponseInterface socketServerResponseInterface) {
         this.socket = socket;
-        this.tBack = tBack;
+        this.socketServerResponseInterface = socketServerResponseInterface;
         this.userIP = socket.getInetAddress().getHostAddress();
-        // onLineClient.put(userIP, socket);
-        onLineClient.add(socket);
+        onLineClient.put(userIP, socket);
         System.out.println("用户：" + userIP
                 + " 加入了聊天室,当前在线人数:" + onLineClient.size());
     }
@@ -62,6 +59,9 @@ public class ServerResponseThread implements Runnable {
         }
     }
 
+    /**
+     * 断开socket连接
+     */
     public void stop() {
         try {
             System.out.println("stop");
@@ -106,32 +106,42 @@ public class ServerResponseThread implements Runnable {
         }
     }
 
+    /**
+     * 发送消息
+     */
     public void addMessage(String data) {
         if (!isConnected()) {
             return;
         }
 
         dataQueue.offer(data);
-        toNotifyAll(dataQueue);//有新增待发送数据，则唤醒发送线程
-    }
-
-    public Socket getConnectdClient(String clientID) {
-        // return onLineClient.get(clientID);
-        return onLineClient.get(0);
+        //有新增待发送数据，则唤醒发送线程
+        toNotifyAll(dataQueue);
     }
 
     /**
-     * 打印已经链接的客户端
+     * 获取已接连的客户端
      */
-    // public static void printAllClient() {
-    //     if (onLineClient == null) {
-    //         return;
-    //     }
-    //     Iterator<String> inter = onLineClient.keySet().iterator();
-    //     while (inter.hasNext()) {
-    //         System.out.println("client:" + inter.next());
-    //     }
-    // }
+    public Socket getConnectdClient(String clientID) {
+        return onLineClient.get(clientID);
+    }
+
+    /**
+     * 打印已经连接的客户端
+     */
+    public static void printAllClient() {
+        if (onLineClient == null) {
+            return;
+        }
+        Iterator<String> inter = onLineClient.keySet().iterator();
+        while (inter.hasNext()) {
+            System.out.println("client:" + inter.next());
+        }
+    }
+
+    /**
+     * 阻塞线程,millis为0则永久阻塞,知道调用notify()
+     */
     public void toWaitAll(Object o) {
         synchronized (o) {
             try {
@@ -142,12 +152,18 @@ public class ServerResponseThread implements Runnable {
         }
     }
 
+    /**
+     * notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后
+     */
     public void toNotifyAll(Object obj) {
         synchronized (obj) {
             obj.notifyAll();
         }
     }
 
+    /**
+     * 判断本地socket连接状态
+     */
     private boolean isConnected() {
         if (socket.isClosed() || !socket.isConnected()) {
             onLineClient.remove(userIP);
@@ -158,6 +174,9 @@ public class ServerResponseThread implements Runnable {
         return true;
     }
 
+    /**
+     * 数据接收线程
+     */
     public class ReceiveThread extends Thread {
 
         private BufferedReader bufferedReader;
@@ -177,22 +196,22 @@ public class ServerResponseThread implements Runnable {
                         if ("bye".equals(msg)) {
                             ServerResponseThread.this.stop();
                             System.out.println("用户" + userIP + " : bye");
-                            tBack.targetIsOffline();
+                            socketServerResponseInterface.clientOffline();
                             break;
                         } else if ("ping".equals(msg)) {
                             System.out.println("收到心跳包");
                             lastReceiveTime = System.currentTimeMillis();
-                            tBack.targetIsOnline(userIP);
+                            socketServerResponseInterface.clientOnline(userIP);
                         } else {
                             msg = "用户" + userIP + " : " + msg;
                             System.out.println(msg);
                             addMessage(msg);
-                            tBack.targetIsOnline(userIP);
+                            socketServerResponseInterface.clientOnline(userIP);
                         }
                     } else {
                         System.out.println("client is offline...");
                         ServerResponseThread.this.stop();
-                        tBack.targetIsOffline();
+                        socketServerResponseInterface.clientOffline();
                         break;
                     }
                     System.out.println("ReceiveThread");
@@ -207,6 +226,9 @@ public class ServerResponseThread implements Runnable {
         }
     }
 
+    /**
+     * 数据发送线程,当没有发送数据时让线程等待
+     */
     public class SendThread extends Thread {
 
         private PrintWriter printWriter;
@@ -241,8 +263,10 @@ public class ServerResponseThread implements Runnable {
         }
     }
 
+    /**
+     * 客户端状态监控线程,判断客户端心跳包是否发送
+     */
     class SocketStatusThread extends Thread {
-
 
         private boolean isCancel;
 
@@ -257,6 +281,7 @@ public class ServerResponseThread implements Runnable {
                 if (!socket.isClosed()) {
                     if (System.currentTimeMillis() - lastReceiveTime > 10000) {
                         System.out.println("timeout");
+                        //关闭输入流后bufferedReader.readLine()会返回null
                         SocketUtil.inputStreamShutdown(socket);
                         break;
                     }
