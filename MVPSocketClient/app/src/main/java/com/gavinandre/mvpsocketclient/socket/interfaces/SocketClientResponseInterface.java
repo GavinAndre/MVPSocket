@@ -1,4 +1,4 @@
-package com.gavinandre.mvpsocketclient.interfaces;
+package com.gavinandre.mvpsocketclient.socket.interfaces;
 
 /**
  * Created by gavinandre on 18-2-25.
