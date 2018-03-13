@@ -86,6 +86,7 @@ public class ServerResponseThread implements Runnable {
                 if (sendThread.printWriter != null) {
                     //防止写数据时停止，写完再停
                     synchronized (sendThread.printWriter) {
+                        SocketUtil.closePrintWriter(sendThread.printWriter);
                         sendThread.printWriter = null;
                     }
                 }
