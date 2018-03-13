@@ -13,7 +13,7 @@ public interface IMainView extends IBaseView {
     void showData(String s);
 
     /**
-     * 检测数据
+     * 显示通知
      */
     void showMessage(String msg);
 }

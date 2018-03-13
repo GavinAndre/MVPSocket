@@ -18,7 +18,9 @@ public abstract class BaseMVPActivity<V extends IBaseView, P extends IBasePresen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = createPresenter();
+        if (mPresenter == null) {
+            mPresenter = createPresenter();
+        }
     }
 
     @NonNull
@@ -29,7 +31,10 @@ public abstract class BaseMVPActivity<V extends IBaseView, P extends IBasePresen
 
     @Override
     protected void onDestroy() {
-        mPresenter.detachView();
+        //解除绑定
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
         super.onDestroy();
     }
 }
