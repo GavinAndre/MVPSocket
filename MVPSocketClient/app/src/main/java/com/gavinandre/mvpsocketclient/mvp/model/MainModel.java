@@ -5,10 +5,12 @@ import com.gavinandre.mvpsocketclient.mvp.presenter.MainPresenter;
 import com.gavinandre.mvpsocketclient.socket.SocketClient;
 import com.gavinandre.mvpsocketclient.socket.interfaces.SocketClientResponseInterface;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by gavinandre on 18-1-7.
  */
-public class MainModel extends BaseModel<MainPresenter> implements SocketClientResponseInterface{
+public class MainModel extends BaseModel<MainPresenter> implements SocketClientResponseInterface {
 
     private static final String TAG = MainModel.class.getSimpleName();
     private static SocketClient socketClient;
@@ -35,13 +37,15 @@ public class MainModel extends BaseModel<MainPresenter> implements SocketClientR
 
     @Override
     public void onSocketConnect() {
-        mPresenter.showData("连接成功");
+        //mPresenter.showData("连接成功");
+        EventBus.getDefault().post("连接成功");
         //Log.i(TAG, "onSocketConnect: 连接成功");
     }
 
     @Override
     public void onSocketReceive(Object socketResult, int code) {
-        mPresenter.showData("收到消息 ,  data: " + socketResult + " , code: " + code);
+        //mPresenter.showData("收到消息 ,  data: " + socketResult + " , code: " + code);
+        EventBus.getDefault().post("收到消息 ,  data: " + socketResult + " , code: " + code);
         //Log.i(TAG, "onSocketReceive: 收到消息 ,  data: " + socketResult + " , code: " + code);
     }
 
