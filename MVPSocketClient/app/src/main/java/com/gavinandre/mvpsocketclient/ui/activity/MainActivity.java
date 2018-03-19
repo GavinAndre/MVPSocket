@@ -8,10 +8,15 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.gavinandre.mvpsocketclient.R;
+import com.gavinandre.mvpsocketclient.bean.MessageEvent;
 import com.gavinandre.mvpsocketclient.mvp.presenter.MainPresenter;
 import com.gavinandre.mvpsocketclient.mvp.view.IMainView;
 import com.gavinandre.mvpsocketclient.ui.fragment.BaseFragment;
 import com.gavinandre.mvpsocketclient.ui.fragment.TestFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +40,7 @@ public class MainActivity extends BaseMVPActivity<IMainView, MainPresenter> impl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(MainActivity.this);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -64,11 +70,17 @@ public class MainActivity extends BaseMVPActivity<IMainView, MainPresenter> impl
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         getPresenter().sendData("bye");
         Log.i(TAG, "onDestroy: sendData");
         getPresenter().stopSocket();
         Log.i(TAG, "onDestroy: stopSocket");
         super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        sendData(event.getMessage());
     }
 
     @Override
@@ -92,7 +104,7 @@ public class MainActivity extends BaseMVPActivity<IMainView, MainPresenter> impl
     }
 
     @Override
-    public <T>void sendData(T data) {
+    public <T> void sendData(T data) {
         getPresenter().sendData(data);
     }
 

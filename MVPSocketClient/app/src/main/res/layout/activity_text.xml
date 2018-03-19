@@ -16,10 +16,4 @@
         android:layout_height="wrap_content"
         android:text="发送" />
 
-    <Button
-        android:id="@+id/btn_child_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="跳转" />
-
 </LinearLayout>
