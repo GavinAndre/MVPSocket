@@ -92,7 +92,7 @@ public class MainActivity extends BaseMVPActivity<IMainView, MainPresenter> impl
     }
 
     @Override
-    public <T>void sendData(T data) {
+    public <T> void sendData(T data) {
         getPresenter().sendData(data);
     }
 

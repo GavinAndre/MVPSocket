@@ -1,6 +1,7 @@
 package com.gavinandre.mvpsocketclient.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.gavinandre.mvpsocketclient.R;
+import com.gavinandre.mvpsocketclient.ui.activity.ChildActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,12 +74,14 @@ public class TestFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.btn_send})
+    @OnClick({R.id.btn_send, R.id.btn_child_activity})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send:
                 activityCallBack.sendData(msg);
                 break;
+            case R.id.btn_child_activity:
+                startActivity(new Intent(getContext(), ChildActivity.class));
             default:
                 break;
         }

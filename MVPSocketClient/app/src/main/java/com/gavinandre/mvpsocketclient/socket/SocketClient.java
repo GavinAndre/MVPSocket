@@ -19,6 +19,7 @@ public class SocketClient {
     public SocketClient(SocketClientResponseInterface socketClientResponseInterface) {
         socketClientThread = new SocketClientThread("socketClientThread", socketClientResponseInterface);
         socketClientThread.start();
+        //ThreadPoolUtil.getInstance().addExecuteTask(socketClientThread);
     }
 
     public <T> void sendData(T data) {
@@ -39,5 +40,10 @@ public class SocketClient {
             socketClientThread.setReConnect(false);
             socketClientThread.stopThread();
         }).start();
+        //ThreadPoolUtil.getInstance().addExecuteTask(() -> {
+        //    socketClientThread.setReConnect(false);
+        //    socketClientThread.stopThread();
+        //});
+        //ThreadPoolUtil.getInstance().shutdown();
     }
 }

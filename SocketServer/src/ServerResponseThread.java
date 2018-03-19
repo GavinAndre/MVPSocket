@@ -99,7 +99,7 @@ public class ServerResponseThread implements Runnable {
                 socketStatusThread.interrupt();
                 System.out.println("stop socketStatusThread");
             }
-            onLineClient.remove(socket);
+            onLineClient.remove(userIP);
             System.out.println("用户：" + userIP
                     + " 退出,当前在线人数:" + onLineClient.size());
         } catch (Exception e) {

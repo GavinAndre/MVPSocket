@@ -48,4 +48,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     //BottomNavigation
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
