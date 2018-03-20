@@ -11,5 +11,8 @@ public abstract class BaseModel<SubP> {
         this.mPresenter = presenter;
     }
 
+    public void detachModel() {
+        this.mPresenter = null;
+    }
 }
 

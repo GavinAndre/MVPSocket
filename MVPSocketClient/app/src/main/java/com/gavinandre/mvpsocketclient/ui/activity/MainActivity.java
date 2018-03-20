@@ -74,7 +74,7 @@ public class MainActivity extends BaseMVPActivity<IMainView, MainPresenter> impl
     @Override
     public void showData(String s) {
         Log.i(TAG, "showData: " + s);
-        runOnUiThread(() -> Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show());
+        runOnUiThread(() -> Toast.makeText(this, s, Toast.LENGTH_SHORT).show());
     }
 
     @Override

@@ -6,7 +6,7 @@ package com.gavinandre.mvpsocketclient.mvp.base;
 public interface IBasePresenter<V extends IBaseView> {
 
     /**绑定接口*/
-    void attachView(V view);
+    void attachViewModel(V view);
 
     /**释放接口*/
     void detachView();

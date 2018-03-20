@@ -1,25 +1,25 @@
 package com.gavinandre.mvpsocketclient.mvp.presenter;
 
 import com.gavinandre.mvpsocketclient.mvp.base.IBasePresenter;
-import com.gavinandre.mvpsocketclient.mvp.model.MainModel;
-import com.gavinandre.mvpsocketclient.mvp.view.IMainView;
+import com.gavinandre.mvpsocketclient.mvp.model.ChildModel;
+import com.gavinandre.mvpsocketclient.mvp.view.IChildView;
 
 /**
  * Created by gavinandre on 18-1-8.
  */
-public class MainPresenter implements IBasePresenter<IMainView> {
+public class ChildPresenter implements IBasePresenter<IChildView> {
 
-    private IMainView mView;
-    private MainModel mModel;
+    private IChildView mView;
+    private ChildModel mModel;
 
-    public MainPresenter(IMainView mView) {
+    public ChildPresenter(IChildView mView) {
         attachViewModel(mView);
     }
 
     @Override
-    public void attachViewModel(IMainView view) {
+    public void attachViewModel(IChildView view) {
         this.mView = view;
-        this.mModel = new MainModel(this);
+        this.mModel = new ChildModel(this);
     }
 
     @Override
