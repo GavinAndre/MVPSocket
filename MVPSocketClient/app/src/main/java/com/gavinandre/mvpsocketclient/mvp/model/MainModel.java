@@ -17,26 +17,27 @@ public class MainModel extends BaseSocketModel<MainPresenter> {
 
     @Override
     public void onSocketConnect() {
-        if (mPresenter != null) {
-            mPresenter.showData("连接成功");
-        }
+        //if (mPresenter != null) {
+        //    mPresenter.showData("连接成功");
+        //}
         EventBus.getDefault().post("连接成功");
     }
 
     @Override
     public void onSocketReceive(Object socketResult, int code) {
-        if (mPresenter != null) {
-            mPresenter.showData("收到消息 ,  data: " + socketResult + " , code: " + code);
-        }
+        //if (mPresenter != null) {
+        //    mPresenter.showData("收到消息 ,  data: " + socketResult + " , code: " + code);
+        //}
         //发送消息给childModel
         EventBus.getDefault().post("收到消息 ,  data: " + socketResult + " , code: " + code);
     }
 
     @Override
     public void onSocketDisable(String msg, int code) {
-        if (mPresenter != null) {
-            mPresenter.showMessage("连接断开 , msg: " + msg + " , code: " + code);
-        }
+        //if (mPresenter != null) {
+        //    mPresenter.showMessage("连接断开 , msg: " + msg + " , code: " + code);
+        //}
+        EventBus.getDefault().post("连接断开 ,  msg: " + msg + " , code: " + code);
     }
 
     @Override

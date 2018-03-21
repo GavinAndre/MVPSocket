@@ -1,16 +1,14 @@
-package com.gavinandre.mvpsocketclient.ui.activity;
+package com.gavinandre.mvpsocketclient.mvp.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.gavinandre.mvpsocketclient.mvp.base.IBaseDelegate;
-import com.gavinandre.mvpsocketclient.mvp.base.IBasePresenter;
-import com.gavinandre.mvpsocketclient.mvp.base.IBaseView;
+import com.gavinandre.mvpsocketclient.ui.activity.BaseActivity;
 
 /**
  * Created by gavinandre on 18-1-8.
  */
-public abstract class BaseMVPActivity<V extends IBaseView, P extends IBasePresenter<V>> extends
+public abstract class AbstractMvpActivity<V extends IBaseView, P extends IBasePresenter<V>> extends
         BaseActivity implements IBaseDelegate<V, P> {
 
     protected P mPresenter;
@@ -33,7 +31,8 @@ public abstract class BaseMVPActivity<V extends IBaseView, P extends IBasePresen
     protected void onDestroy() {
         //解除绑定
         if (mPresenter != null) {
-            mPresenter.detachView();
+            mPresenter.detachViewModel();
+            mPresenter = null;
         }
         super.onDestroy();
     }

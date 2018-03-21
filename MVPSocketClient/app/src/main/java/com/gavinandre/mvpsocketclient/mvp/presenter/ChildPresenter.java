@@ -23,7 +23,7 @@ public class ChildPresenter implements IBasePresenter<IChildView> {
     }
 
     @Override
-    public void detachView() {
+    public void detachViewModel() {
         this.mView = null;
         this.mModel.detachModel();
         this.mModel = null;

@@ -9,6 +9,6 @@ public interface IBasePresenter<V extends IBaseView> {
     void attachViewModel(V view);
 
     /**释放接口*/
-    void detachView();
+    void detachViewModel();
 
 }

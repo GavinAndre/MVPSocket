@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.gavinandre.mvpsocketclient.R;
+import com.gavinandre.mvpsocketclient.mvp.base.AbstractMvpActivity;
 import com.gavinandre.mvpsocketclient.mvp.presenter.ChildPresenter;
 import com.gavinandre.mvpsocketclient.mvp.view.IChildView;
 
@@ -17,7 +18,7 @@ import butterknife.OnClick;
  * Created by gavinandre on 18-3-18.
  */
 
-public class ChildActivity extends BaseMVPActivity<IChildView, ChildPresenter> implements
+public class ChildActivity extends AbstractMvpActivity<IChildView, ChildPresenter> implements
         IChildView {
 
     private static final String TAG = ChildActivity.class.getSimpleName();

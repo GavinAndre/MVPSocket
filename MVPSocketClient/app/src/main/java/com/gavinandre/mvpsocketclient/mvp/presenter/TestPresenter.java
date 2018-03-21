@@ -1,25 +1,27 @@
 package com.gavinandre.mvpsocketclient.mvp.presenter;
 
 import com.gavinandre.mvpsocketclient.mvp.base.IBasePresenter;
-import com.gavinandre.mvpsocketclient.mvp.model.MainModel;
-import com.gavinandre.mvpsocketclient.mvp.view.IMainView;
+import com.gavinandre.mvpsocketclient.mvp.model.TestModel;
+import com.gavinandre.mvpsocketclient.mvp.view.ITestView;
 
 /**
  * Created by gavinandre on 18-1-8.
  */
-public class MainPresenter implements IBasePresenter<IMainView> {
+public class TestPresenter implements IBasePresenter<ITestView> {
 
-    private IMainView mView;
-    private MainModel mModel;
+    private static final String TAG = TestPresenter.class.getSimpleName();
 
-    public MainPresenter(IMainView mView) {
+    private ITestView mView;
+    private TestModel mModel;
+
+    public TestPresenter(ITestView mView) {
         attachViewModel(mView);
     }
 
     @Override
-    public void attachViewModel(IMainView view) {
+    public void attachViewModel(ITestView view) {
         this.mView = view;
-        this.mModel = new MainModel(this);
+        this.mModel = new TestModel(this);
     }
 
     @Override

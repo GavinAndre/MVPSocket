@@ -3,11 +3,11 @@ package com.gavinandre.mvpsocketclient.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.gavinandre.mvpsocketclient.R;
+import com.gavinandre.mvpsocketclient.mvp.base.AbstractMvpActivity;
 import com.gavinandre.mvpsocketclient.mvp.presenter.MainPresenter;
 import com.gavinandre.mvpsocketclient.mvp.view.IMainView;
 import com.gavinandre.mvpsocketclient.ui.fragment.BaseFragment;
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by gavinandre on 18-1-8.
  */
-public class MainActivity extends BaseMVPActivity<IMainView, MainPresenter> implements
+public class MainActivity extends AbstractMvpActivity<IMainView, MainPresenter> implements
         IMainView, BaseFragment.IMainCallBack {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -74,7 +74,7 @@ public class MainActivity extends BaseMVPActivity<IMainView, MainPresenter> impl
     @Override
     public void showData(String s) {
         Log.i(TAG, "showData: " + s);
-        runOnUiThread(() -> Toast.makeText(this, s, Toast.LENGTH_SHORT).show());
+        //runOnUiThread(() -> Toast.makeText(this, s, Toast.LENGTH_SHORT).show());
     }
 
     @Override
