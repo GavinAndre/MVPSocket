@@ -1,7 +1,5 @@
 package com.gavinandre.mvpsocketclient.socket.utils;
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -88,8 +86,6 @@ public class SocketUtil {
      */
     public static void closePrintWriter(PrintWriter pw) {
         if (pw != null) {
-            Log.i(TAG, "closePrintWriter: " + Thread.currentThread().getName());
-            pw.println("bye");
             pw.close();
         }
     }

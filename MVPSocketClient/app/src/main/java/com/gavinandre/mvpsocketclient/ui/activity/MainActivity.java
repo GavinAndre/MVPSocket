@@ -64,10 +64,6 @@ public class MainActivity extends AbstractMvpActivity<IMainView, MainPresenter> 
 
     @Override
     protected void onDestroy() {
-        getPresenter().sendData("bye");
-        Log.i(TAG, "onDestroy: sendData");
-        getPresenter().stopSocket();
-        Log.i(TAG, "onDestroy: stopSocket");
         super.onDestroy();
     }
 

@@ -42,7 +42,6 @@ public class MainModel extends BaseSocketModel<MainPresenter> {
 
     @Override
     public void detachModel() {
-        sendData("bye");
         stopSocket();
         super.detachModel();
     }
