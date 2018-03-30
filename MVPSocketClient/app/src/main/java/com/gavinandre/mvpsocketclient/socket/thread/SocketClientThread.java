@@ -2,9 +2,9 @@ package com.gavinandre.mvpsocketclient.socket.thread;
 
 import android.util.Log;
 
-import com.gavinandre.mvpsocketclient.socket.utils.SocketUtil;
 import com.gavinandre.mvpsocketclient.socket.interfaces.SocketClientResponseInterface;
 import com.gavinandre.mvpsocketclient.socket.interfaces.SocketCloseInterface;
+import com.gavinandre.mvpsocketclient.socket.utils.SocketUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,16 +74,16 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
             mSocketReceiveThread.start();
 
             //开启发送线程
-            mSocketSendThread = new SocketSendThread("SocketSendThread",
-                    new PrintWriter(mSocket.getOutputStream(), true));
+            PrintWriter printWriter = new PrintWriter(mSocket.getOutputStream(), true);
+            Log.i(TAG, "initSocket: " + printWriter);
+            mSocketSendThread = new SocketSendThread("SocketSendThread", printWriter);
             mSocketSendThread.setCloseSendTask(false);
             mSocketSendThread.start();
 
             //开启心跳线程
             if (isLongConnection) {
                 mSocketHeartBeatThread = new SocketHeartBeatThread("SocketHeartBeatThread",
-                        new PrintWriter(mSocket.getOutputStream(), true),
-                        mSocket, this);
+                        printWriter, mSocket, this);
                 mSocketHeartBeatThread.start();
             }
 
@@ -193,17 +193,6 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
         if (socketClientResponseInterface != null) {
             socketClientResponseInterface.onSocketDisable(msg, code);
         }
-    }
-
-    /**
-     * 判断本地socket连接状态
-     */
-    private boolean isConnected() {
-        if (mSocket.isClosed() || !mSocket.isConnected()) {
-            stopThread();
-            return false;
-        }
-        return true;
     }
 
     @Override

@@ -60,6 +60,7 @@ public class SocketReceiveThread extends Thread {
             //循环结束则退出输入流
             SocketUtil.closeBufferedReader(bufferedReader);
             currentThread.setName(oldName);
+            Log.i(TAG, "SocketReceiveThread finish");
         }
     }
 

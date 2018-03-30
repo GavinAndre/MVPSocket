@@ -6,7 +6,6 @@ import com.gavinandre.mvpsocketclient.socket.utils.SocketUtil;
 
 import java.io.PrintWriter;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by gavinandre on 18-3-13.
@@ -20,9 +19,7 @@ public class SocketSendThread extends Thread {
 
     private volatile boolean isCancel = false;
     private boolean closeSendTask;
-    private PrintWriter printWriter;
-
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final PrintWriter printWriter;
 
     protected volatile ConcurrentLinkedQueue<String> dataQueue = new ConcurrentLinkedQueue<>();
 
@@ -38,9 +35,6 @@ public class SocketSendThread extends Thread {
         currentThread.setName("Processing-" + name);
         try {
             while (!isCancel) {
-                //if (!isConnected()) {
-                //    break;
-                //}
 
                 String dataContent = dataQueue.poll();
                 if (dataContent == null) {
@@ -49,20 +43,22 @@ public class SocketSendThread extends Thread {
                     if (closeSendTask) {
                         //notify()调用后，并不是马上就释放对象锁的，所以在此处中断发送线程
                         close();
-                        latch.countDown();
                     }
                 } else if (printWriter != null) {
                     synchronized (printWriter) {
-                        Log.i(TAG, "before: write2Stream");
                         SocketUtil.write2Stream(dataContent, printWriter);
-                        Log.i(TAG, "after: write2Stream");
                     }
                 }
             }
         } finally {
             //循环结束则退出输出流
-            SocketUtil.closePrintWriter(printWriter);
+            if (printWriter != null) {
+                synchronized (printWriter) {
+                    SocketUtil.closePrintWriter(printWriter);
+                }
+            }
             currentThread.setName(oldName);
+            Log.i(TAG, "SocketSendThread finish");
         }
     }
 
@@ -89,19 +85,13 @@ public class SocketSendThread extends Thread {
             //防止写数据时停止，写完再停
             synchronized (printWriter) {
                 SocketUtil.closePrintWriter(printWriter);
-                printWriter = null;
             }
         }
     }
 
     public void wakeSendTask() {
-        try {
-            closeSendTask = true;
-            SocketUtil.toNotifyAll(dataQueue);
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        closeSendTask = true;
+        SocketUtil.toNotifyAll(dataQueue);
     }
 
     public void setCloseSendTask(boolean closeSendTask) {
