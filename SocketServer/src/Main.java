@@ -20,6 +20,8 @@ public class Main {
             serverSocket = new ServerSocket(SocketUtil.PORT);
             while (isStart) {
                 Socket socket = serverSocket.accept();
+                //设定输入流读取阻塞超时时间(10秒收不到客户端消息判定断线)
+                socket.setSoTimeout(10000);
                 serverResponseThread = new ServerResponseThread(socket,
                         new SocketServerResponseInterface() {
 
@@ -49,8 +51,7 @@ public class Main {
                 try {
                     isStart = false;
                     serverSocket.close();
-                    if (serverSocket != null)
-                        serverResponseThread.stop();
+                    serverResponseThread.stop();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

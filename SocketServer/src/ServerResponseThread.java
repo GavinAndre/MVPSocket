@@ -51,9 +51,6 @@ public class ServerResponseThread implements Runnable {
             sendThread.printWriter = new PrintWriter(socket.getOutputStream(), true);
             sendThread.start();
 
-            //开启判断心跳包超时线程
-            socketStatusThread = new SocketStatusThread();
-            socketStatusThread.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -194,12 +191,7 @@ public class ServerResponseThread implements Runnable {
 
                     String msg = SocketUtil.readFromStream(bufferedReader);
                     if (msg != null) {
-                        if ("bye".equals(msg)) {
-                            ServerResponseThread.this.stop();
-                            System.out.println("用户" + userIP + " : bye");
-                            socketServerResponseInterface.clientOffline();
-                            break;
-                        } else if ("ping".equals(msg)) {
+                        if ("ping".equals(msg)) {
                             System.out.println("收到心跳包");
                             lastReceiveTime = System.currentTimeMillis();
                             socketServerResponseInterface.clientOnline(userIP);
