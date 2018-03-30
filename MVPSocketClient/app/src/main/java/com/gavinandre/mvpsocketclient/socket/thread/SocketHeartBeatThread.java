@@ -1,9 +1,10 @@
 package com.gavinandre.mvpsocketclient.socket.thread;
 
-import com.gavinandre.mvpsocketclient.socket.utils.SocketUtil;
-import com.gavinandre.mvpsocketclient.socket.interfaces.SocketCloseInterface;
+import android.util.Log;
 
-import java.io.IOException;
+import com.gavinandre.mvpsocketclient.socket.interfaces.SocketCloseInterface;
+import com.gavinandre.mvpsocketclient.socket.utils.SocketUtil;
+
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -19,7 +20,7 @@ public class SocketHeartBeatThread extends Thread {
 
     private static final int REPEAT_TIME = 5000;
     private boolean isCancel = false;
-    private PrintWriter printWriter;
+    private final PrintWriter printWriter;
     private Socket mSocket;
 
     private SocketCloseInterface socketCloseInterface;
@@ -39,23 +40,24 @@ public class SocketHeartBeatThread extends Thread {
         currentThread.setName("Processing-" + name);
         try {
             while (!isCancel) {
-                //if (!isConnected()) {
-                //    break;
-                //}
-
-                try {
-                    mSocket.sendUrgentData(0xFF);
-                } catch (IOException e) {
-                    if (socketCloseInterface != null) {
-                        socketCloseInterface.onSocketDisconnection();
-                    }
+                if (!isConnected()) {
                     break;
                 }
 
+                //try {
+                //    mSocket.sendUrgentData(0xFF);
+                //} catch (IOException e) {
+                //    if (socketCloseInterface != null) {
+                //        socketCloseInterface.onSocketDisconnection();
+                //    }
+                //    break;
+                //}
                 if (printWriter != null) {
-                    SocketUtil.write2Stream("ping", printWriter);
+                    synchronized (printWriter) {
+                        SocketUtil.write2Stream("ping", printWriter);
+                    }
                 }
-
+                //Log.i(TAG, "run: SocketHeartBeatThread");
                 try {
                     Thread.sleep(REPEAT_TIME);
                 } catch (InterruptedException e) {
@@ -64,16 +66,36 @@ public class SocketHeartBeatThread extends Thread {
             }
         } finally {
             //循环结束则退出输入流
-            SocketUtil.closePrintWriter(printWriter);
+            if (printWriter != null) {
+                synchronized (printWriter) {
+                    SocketUtil.closePrintWriter(printWriter);
+                }
+            }
             currentThread.setName(oldName);
+            Log.i(TAG, "SocketHeartBeatThread finish");
         }
+    }
+
+    /**
+     * 判断本地socket连接状态
+     */
+    private boolean isConnected() {
+        if (mSocket.isClosed() || !mSocket.isConnected() ||
+                mSocket.isInputShutdown() || mSocket.isOutputShutdown()) {
+            if (socketCloseInterface != null) {
+                socketCloseInterface.onSocketDisconnection();
+            }
+            return false;
+        }
+        return true;
     }
 
     public void close() {
         isCancel = true;
         if (printWriter != null) {
-            SocketUtil.closePrintWriter(printWriter);
-            printWriter = null;
+            synchronized (printWriter) {
+                SocketUtil.closePrintWriter(printWriter);
+            }
         }
     }
 
