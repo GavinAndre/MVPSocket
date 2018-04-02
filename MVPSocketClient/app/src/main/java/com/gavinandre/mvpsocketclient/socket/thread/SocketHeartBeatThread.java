@@ -44,6 +44,7 @@ public class SocketHeartBeatThread extends Thread {
                     break;
                 }
 
+                //去除sendUrgentData,防止windows系统下发送多次后断开的问题
                 //try {
                 //    mSocket.sendUrgentData(0xFF);
                 //} catch (IOException e) {
