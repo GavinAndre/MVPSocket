@@ -13,7 +13,6 @@ public class ServerResponseThread implements Runnable {
 
     private ReceiveThread receiveThread;
     private SendThread sendThread;
-    private SocketStatusThread socketStatusThread;
     private Socket socket;
     private SocketServerResponseInterface socketServerResponseInterface;
 
@@ -89,12 +88,6 @@ public class ServerResponseThread implements Runnable {
                 }
                 sendThread = null;
                 System.out.println("stop sendThread");
-            }
-            if (socketStatusThread != null) {
-                socketStatusThread.isCancel = true;
-                toNotifyAll(socketStatusThread);
-                socketStatusThread.interrupt();
-                System.out.println("stop socketStatusThread");
             }
             onLineClient.remove(userIP);
             System.out.println("用户：" + userIP
@@ -253,41 +246,6 @@ public class ServerResponseThread implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    /**
-     * 客户端状态监控线程,判断客户端心跳包是否发送
-     */
-    class SocketStatusThread extends Thread {
-
-        private boolean isCancel;
-
-        @Override
-        public void run() {
-            while (!isCancel) {
-                if (!isConnected()) {
-                    isCancel = true;
-                    break;
-                }
-                System.out.println("SocketStatusThread");
-                if (!socket.isClosed()) {
-                    if (System.currentTimeMillis() - lastReceiveTime > 10000) {
-                        System.out.println("timeout");
-                        //关闭输入流后bufferedReader.readLine()会返回null
-                        SocketUtil.inputStreamShutdown(socket);
-                        break;
-                    }
-                }
-                try {
-                    synchronized (this) {
-                        this.wait(3000);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            System.out.println("SocketStatusThread is finish");
         }
     }
 
