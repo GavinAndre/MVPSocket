@@ -184,7 +184,7 @@ public class ServerResponseThread implements Runnable {
 
                     String msg = SocketUtil.readFromStream(bufferedReader);
                     if (msg != null) {
-                        if ("ping".equals(msg)) {
+                        if (msg.contains("ping")) {
                             System.out.println("收到心跳包");
                             lastReceiveTime = System.currentTimeMillis();
                             socketServerResponseInterface.clientOnline(userIP);

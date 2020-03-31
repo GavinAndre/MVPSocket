@@ -37,7 +37,7 @@ public abstract class BaseSocketModel<SubP> extends BaseModel<SubP> implements S
     }
 
     @Override
-    public void onSocketReceive(Object socketResult, int code) {
+    public void onSocketReceive(String socketResult, int code) {
     }
 
     @Override

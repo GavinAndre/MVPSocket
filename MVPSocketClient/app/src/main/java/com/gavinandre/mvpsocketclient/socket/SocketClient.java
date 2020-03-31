@@ -24,9 +24,13 @@ public class SocketClient {
 
     public <T> void sendData(T data) {
         //convert to string or serialize object
+        if (!(data instanceof String)) {
+            Log.e(TAG, "sendData: todo serialize object");
+            return;
+        }
         String s = (String) data;
         if (TextUtils.isEmpty(s)) {
-            Log.i(TAG, "sendData: 消息不能为空");
+            Log.e(TAG, "sendData: 消息不能为空");
             return;
         }
         if (socketClientThread != null) {

@@ -195,6 +195,17 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
         }
     }
 
+    /**
+     * 判断本地socket连接状态
+     */
+    private boolean isConnected() {
+        if (mSocket.isClosed() || !mSocket.isConnected()) {
+            stopThread();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onSocketShutdownInput() {
         if (isSocketAvailable) {

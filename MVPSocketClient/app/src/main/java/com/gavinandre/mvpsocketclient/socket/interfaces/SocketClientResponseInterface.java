@@ -3,7 +3,7 @@ package com.gavinandre.mvpsocketclient.socket.interfaces;
 /**
  * Created by gavinandre on 18-2-25.
  */
-public interface SocketClientResponseInterface<T> {
+public interface SocketClientResponseInterface {
 
     /**
      * 客户端连接成功回调
@@ -16,7 +16,7 @@ public interface SocketClientResponseInterface<T> {
      * @param socketResult
      * @param code
      */
-    void onSocketReceive(T socketResult, int code);
+    void onSocketReceive(String socketResult, int code);
 
     /**
      * 客户端关闭回调

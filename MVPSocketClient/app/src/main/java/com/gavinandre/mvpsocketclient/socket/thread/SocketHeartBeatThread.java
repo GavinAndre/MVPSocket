@@ -45,17 +45,18 @@ public class SocketHeartBeatThread extends Thread {
                 }
 
                 //去除sendUrgentData,防止windows系统下发送多次后断开的问题
-                //try {
+                // try {
                 //    mSocket.sendUrgentData(0xFF);
-                //} catch (IOException e) {
+                // } catch (IOException e) {
                 //    if (socketCloseInterface != null) {
                 //        socketCloseInterface.onSocketDisconnection();
                 //    }
                 //    break;
-                //}
+                // }
                 if (printWriter != null) {
                     synchronized (printWriter) {
                         SocketUtil.write2Stream("ping", printWriter);
+                        // SocketUtil.write2Stream("{\"ping\":1}", printWriter);
                     }
                 }
                 //Log.i(TAG, "run: SocketHeartBeatThread");
@@ -93,6 +94,7 @@ public class SocketHeartBeatThread extends Thread {
 
     public void close() {
         isCancel = true;
+        this.interrupt();
         if (printWriter != null) {
             synchronized (printWriter) {
                 SocketUtil.closePrintWriter(printWriter);

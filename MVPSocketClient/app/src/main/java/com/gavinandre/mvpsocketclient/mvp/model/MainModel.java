@@ -24,7 +24,7 @@ public class MainModel extends BaseSocketModel<MainPresenter> {
     }
 
     @Override
-    public void onSocketReceive(Object socketResult, int code) {
+    public void onSocketReceive(String socketResult, int code) {
         //if (mPresenter != null) {
         //    mPresenter.showData("收到消息 ,  data: " + socketResult + " , code: " + code);
         //}

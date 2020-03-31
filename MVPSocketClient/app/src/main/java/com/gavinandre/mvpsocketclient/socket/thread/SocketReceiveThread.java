@@ -68,6 +68,7 @@ public class SocketReceiveThread extends Thread {
      * 接收消息回调
      */
     private void successMessage(String data) {
+        // Log.i(TAG, "onSocketReceive: " + data);
         if (socketClientResponseInterface != null) {
             socketClientResponseInterface.onSocketReceive(data, SocketUtil.SUCCESS);
         }
