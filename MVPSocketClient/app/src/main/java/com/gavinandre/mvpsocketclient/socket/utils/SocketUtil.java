@@ -13,7 +13,7 @@ import java.net.Socket;
 public class SocketUtil {
 
     private static final String TAG = SocketUtil.class.getSimpleName();
-    public static String ADDRESS = "192.168.1.123";
+    public static String ADDRESS = "192.168.0.109";
     public static int PORT = 10086;
 
     public static final int SUCCESS = 100;

@@ -43,6 +43,7 @@ public class SocketClient {
         new Thread(() -> {
             socketClientThread.setReConnect(false);
             socketClientThread.stopThread();
+            Log.i(TAG, "stopSocket: ");
         }).start();
         //ThreadPoolUtil.getInstance().addExecuteTask(() -> {
         //    socketClientThread.setReConnect(false);

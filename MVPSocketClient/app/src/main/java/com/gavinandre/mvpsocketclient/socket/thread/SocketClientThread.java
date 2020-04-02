@@ -29,6 +29,7 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
 
     private boolean isLongConnection = true;
     private boolean isReConnect = true;
+    private int reconnectCount = 0;
     private SocketSendThread mSocketSendThread;
     private SocketReceiveThread mSocketReceiveThread;
     private SocketHeartBeatThread mSocketHeartBeatThread;
@@ -50,7 +51,7 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
         currentThread.setName("Processing-" + name);
         try {
             initSocket();
-            Log.i(TAG, "run: SocketClientThread end");
+            Log.i(TAG, "run: " + currentThread.getName() + " end");
         } finally {
             currentThread.setName(oldName);
         }
@@ -92,11 +93,13 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
             }
         } catch (ConnectException e) {
             failedMessage("服务器连接异常，请检查网络", SocketUtil.FAILED);
-            e.printStackTrace();
+//            e.printStackTrace();
+            Log.w(TAG, "initSocket: " + e.getMessage());
             stopThread();
         } catch (IOException e) {
             failedMessage("网络发生异常，请稍后重试", SocketUtil.FAILED);
-            e.printStackTrace();
+//            e.printStackTrace();
+            Log.w(TAG, "initSocket: " + e.getMessage());
             stopThread();
         }
     }
@@ -125,9 +128,16 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
         //清除数据
         clearData();
         failedMessage("断开连接", SocketUtil.FAILED);
+        if (reconnectCount > 60) {
+            Log.e(TAG, "stopThread: reconnect over 5 minutes, stop reconnect");
+            return;
+        }
         if (isReConnect) {
-            SocketUtil.toWait(this, 15000);
+            reconnectCount++;
+            Log.i(TAG, "reconnect: " + Thread.currentThread().getName());
+            SocketUtil.toWait(this, 5 * 1000);
             initSocket();
+            reconnectCount = 0;
             Log.i(TAG, "stopThread: " + Thread.currentThread().getName());
         }
     }
@@ -216,7 +226,7 @@ public class SocketClientThread extends Thread implements SocketCloseInterface {
     @Override
     public void onSocketDisconnection() {
         isSocketAvailable = false;
-        stopThread();
+        new Thread(this::stopThread).start();
     }
 
     /**

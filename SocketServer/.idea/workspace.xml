@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70abed95-f263-4cde-824f-2f5cdfb02bf1" name="Default" comment="add .gitignore file">
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/mvp/model/BaseSocketModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/mvp/model/BaseSocketModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/mvp/model/MainModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/mvp/model/MainModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/SocketClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/interfaces/SocketClientResponseInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/interfaces/SocketClientResponseInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/thread/SocketClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/thread/SocketClientThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/thread/SocketHeartBeatThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/thread/SocketHeartBeatThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/thread/SocketReceiveThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/thread/SocketReceiveThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/utils/SocketUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/app/src/main/java/com/gavinandre/mvpsocketclient/socket/utils/SocketUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MVPSocketClient/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../MVPSocketClient/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerResponseThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerResponseThread.java" afterDir="false" />
     </list>
@@ -124,7 +115,11 @@
       <workItem from="1520574502286" duration="1222000" />
       <workItem from="1520913890077" duration="789000" />
       <workItem from="1520940524705" duration="3864000" />
-      <workItem from="1585627463956" duration="1287000" />
+      <workItem from="1585627463956" duration="1691000" />
+      <workItem from="1585636376993" duration="1823000" />
+      <workItem from="1585745798684" duration="1462000" />
+      <workItem from="1585751433141" duration="2456000" />
+      <workItem from="1585813695336" duration="12337000" />
     </task>
     <task id="LOCAL-00001" summary="add .gitignore file">
       <created>1519534376200</created>
@@ -173,29 +168,29 @@
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
     <state x="448" y="311" width="424" height="484" key="FileChooserDialogImpl/0.28.1920.1052@0.28.1920.1052" timestamp="1585628207432" />
-    <state width="1291" height="264" key="GridCell.Tab.0.bottom" timestamp="1585628635996">
+    <state width="1291" height="256" key="GridCell.Tab.0.bottom" timestamp="1585847160334">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
-    <state width="1291" height="264" key="GridCell.Tab.0.bottom/0.28.1920.1052@0.28.1920.1052" timestamp="1585628635996" />
-    <state width="1291" height="264" key="GridCell.Tab.0.center" timestamp="1585628635996">
+    <state width="1291" height="256" key="GridCell.Tab.0.bottom/0.28.1920.1052@0.28.1920.1052" timestamp="1585847160334" />
+    <state width="1291" height="256" key="GridCell.Tab.0.center" timestamp="1585847160330">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
-    <state width="1291" height="264" key="GridCell.Tab.0.center/0.28.1920.1052@0.28.1920.1052" timestamp="1585628635996" />
-    <state width="1291" height="264" key="GridCell.Tab.0.left" timestamp="1585628635996">
+    <state width="1291" height="256" key="GridCell.Tab.0.center/0.28.1920.1052@0.28.1920.1052" timestamp="1585847160330" />
+    <state width="1291" height="256" key="GridCell.Tab.0.left" timestamp="1585847160328">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
-    <state width="1291" height="264" key="GridCell.Tab.0.left/0.28.1920.1052@0.28.1920.1052" timestamp="1585628635996" />
-    <state width="1291" height="264" key="GridCell.Tab.0.right" timestamp="1585628635996">
+    <state width="1291" height="256" key="GridCell.Tab.0.left/0.28.1920.1052@0.28.1920.1052" timestamp="1585847160328" />
+    <state width="1291" height="256" key="GridCell.Tab.0.right" timestamp="1585847160332">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
-    <state width="1291" height="264" key="GridCell.Tab.0.right/0.28.1920.1052@0.28.1920.1052" timestamp="1585628635996" />
+    <state width="1291" height="256" key="GridCell.Tab.0.right/0.28.1920.1052@0.28.1920.1052" timestamp="1585847160332" />
     <state x="153" y="131" width="1024" height="845" key="SettingsEditor" timestamp="1585628231892">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
     <state x="153" y="131" width="1024" height="845" key="SettingsEditor/0.28.1920.1052@0.28.1920.1052" timestamp="1585628231892" />
-    <state x="317" y="246" width="707" height="616" key="find.popup" timestamp="1585628464808">
+    <state x="317" y="246" width="707" height="616" key="find.popup" timestamp="1585820441965">
       <screen x="0" y="28" width="1920" height="1052" />
     </state>
-    <state x="317" y="246" width="707" height="616" key="find.popup/0.28.1920.1052@0.28.1920.1052" timestamp="1585628464808" />
+    <state x="317" y="246" width="707" height="616" key="find.popup/0.28.1920.1052@0.28.1920.1052" timestamp="1585820441965" />
   </component>
 </project>
